@@ -1,14 +1,11 @@
 var express = require('express')
 
-
+	router = express.Router();
 	
-	serverRouter = express.Router();
-	
-	serverRouter.get('',function(req,res,next) {
-		console.log('serving index');
+	router.get('',function(req,res,next) {
 		res.sendfile('./index.html');
 	});
 
 
 
-module.exports = serverRouter
+module.exports = router

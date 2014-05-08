@@ -9,19 +9,22 @@ var path = require('path');
 var User = require('./authModels');
 var configAuth = require('./authConfig');
 var passport = require('passport');
-require('./authPassportConfig')(passport); // pass passport for configuration
+/*require('./authPassportConfig')(passport); // pass passport for configuration*/
 var express = require('express');
 var router = express.Router();
 
 // HOME PAGE (with login links) ========
 	// required for passport
 	//router.use(express.session({ secret: 'IthinkThisjustneedstobelongenoughtobehardtofigureout' })); // session secret
-	router.use(passport.initialize());
-	router.use(passport.session()); // persistent login sessions
+/*	router.use(passport.initialize());
+	router.use(passport.session()); // persistent login sessions*/
 
 	// LOGIN ===============================
 	// show the login form
-	
+
+	router.get('/logmein', function(req,res,next) {
+		res.sendfile('./app/auth/authIntercept.html');
+	});
 	
 	router.get('', function(req,res,next) {
 		console.log('authrouter: /');
@@ -95,7 +98,7 @@ var router = express.Router();
 	router.get('/auth/:net/callback', function(req, res, next) {
 			console.log('callback: ' + req.params.net);
 			passport.authenticate(req.params.net, {
-				successRedirect : '/index',
+				successRedirect : req.session.nextUrl ? req.session.nextUrl : '/',
 				failureRedirect : '/profile'
 			})(req,res,next);
 		});
