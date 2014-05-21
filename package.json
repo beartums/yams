@@ -10,6 +10,8 @@
     "passport-twitter": "~1.0.2",
     "passport-google-oauth": "~0.1.5",
     "passport-github": "latest",
+	"express-jwt": "latest",
+	"jsonwebtoken": "latest",
     "bcrypt-nodejs": "latest",
     "moment": "~2.6.0",
     "forever": "latest",

@@ -8,6 +8,9 @@ var bcrypt   = require('bcrypt-nodejs');
 var userSchema = mongoose.Schema({
 
     local            : {
+				username		 : String,
+				firstName		 : String,
+				lastName		 : String,
         email        : String,
         password     : String,
 				created			 : Date,
@@ -19,7 +22,7 @@ var userSchema = mongoose.Schema({
 				network			 : String, //Facebook, Google
         id           : String, // Social Network ID for this user
         token        : String, // Token supplied by the social network
-        emails       : [String], // Email identifying this user in the social network
+        emails       : [String], // array of emails assigned to this user
         name         : String,  // Name of user in network
 				linked			 : Date,
 				lastLoggedIn : Date,

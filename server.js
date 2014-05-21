@@ -24,13 +24,13 @@ app.set('view engine', 'ejs');
 app.use(morgan('dev')); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
 app.use(session({secret:'Ihopethisislongenoughtobereallyreallydifficulttofigureout'}));
-app.use(saveUrl());
-app.use(logNextUrl());
+app.use(saveUrl()); // store to session the last url attempt before redirect to authorization
+app.use(logNextUrl()); // log to console the saved url
 app.use(bodyParser()); // get information from html forms
 app.use(flash()); // use connect-flash for flash messages stored in session
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
-app.use('/auth',authRouter);
+app.use('/auth',authRouter); // authorization protocol
 app.use('/api',apiRouter);
 app.use('/',serverRouter);
 
