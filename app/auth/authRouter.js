@@ -1,15 +1,15 @@
 /*
+	route handler for authorization requests
+	
 	'/auth' gets us to this router (if that's how it's specified in server.js)
-	'/auth/showLogin' displays the login form (SPA for login only.  just return success/fail info)
 	'/auth/login' is an attempted login.  Post only.
 	
 	
 */
 var path = require('path');
 var User = require('./authModels');
-var configAuth = require('./authConfig');
+var authProviderSecrets = require('./authProviderSecrets');
 var passport = require('passport');
-/*require('./authPassportConfig')(passport); // pass passport for configuration*/
 var express = require('express');
 var router = express.Router();
 
@@ -83,7 +83,7 @@ var router = express.Router();
 	// Use custom callback functions in passport for better control and to cut down on repetitive code
 	router.get('/auth/:net', function(req,res,next) {
 		console.log(req.params.net);
-		passport.authenticate(req.params.net, {scope : configAuth[req.params.net].scope}, function(err,user,info) {
+		passport.authenticate(req.params.net, {scope : authProviderSecrets[req.params.net].scope}, function(err,user,info) {
 			console.log(err);
 			if (err) {return next(err);}
 			if (!user) {return res.redirect('/auth/login');}
@@ -105,7 +105,7 @@ var router = express.Router();
 
 	// send to requested social media site to do the authentication
 	router.get('/connect/:net', function(req,res,next) {
-		passport.authorize(req.params.net, { scope : configAuth[req.params.net].scope });
+		passport.authorize(req.params.net, { scope : authProviderSecrets[req.params.net].scope });
 	});
 	
 	// handle the callback after requested social media network site has authorized the user
