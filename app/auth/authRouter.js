@@ -21,14 +21,15 @@ var router = express.Router();
 
 	// LOGIN ===============================
 	// show the login form
-
+	console.log(__dirname);
+	router.use('/client', express.static(__dirname + '/client'));
 	router.get('/logmein', function(req,res,next) {
 		res.sendfile('./app/auth/authIntercept.html');
 	});
 	
 	router.get('', function(req,res,next) {
 		console.log('authrouter: /');
-		res.sendfile('./app/auth/html/login.html');
+		res.redirect('/auth/client/');
 	});
 
 	router.route('/login')

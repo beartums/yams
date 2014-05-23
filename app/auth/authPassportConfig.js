@@ -8,7 +8,7 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 var GitHubStrategy = require('passport-github').Strategy;
 // load up the user model
 var User       = require('./authModels');
-var configAuth = require('./authConfig');
+var authProviderSecrets = require('./authProviderSecrets');
 //var validator = require('./authValidator');
 /**
  * Validates authentication/authorization from social networks
@@ -242,9 +242,9 @@ module.exports = function(passport) {
     passport.use(new FacebookStrategy({
 
 		// pull in our app id and secret from our auth.js file
-        clientID        : configAuth.facebook.clientId,
-        clientSecret    : configAuth.facebook.clientSecret,
-        callbackURL     : configAuth.facebook.callbackURL,
+        clientID        : authProviderSecrets.facebook.clientId,
+        clientSecret    : authProviderSecrets.facebook.clientSecret,
+        callbackURL     : authProviderSecrets.facebook.callbackURL,
 				passReqToCallback: true // allows us to test for lagged in user
 
     },
@@ -262,9 +262,9 @@ module.exports = function(passport) {
 		*/
 		passport.use(new GoogleStrategy({
 
-        clientID        : configAuth.google.clientId,
-        clientSecret    : configAuth.google.clientSecret,
-        callbackURL     : configAuth.google.callbackURL,
+        clientID        : authProviderSecrets.google.clientId,
+        clientSecret    : authProviderSecrets.google.clientSecret,
+        callbackURL     : authProviderSecrets.google.callbackURL,
 				passReqToCallback: true
 
     },
@@ -286,9 +286,9 @@ module.exports = function(passport) {
 		*/
 		passport.use(new GitHubStrategy({
 
-        clientID        : configAuth.gitHub.clientId,
-        clientSecret    : configAuth.gitHub.clientSecret,
-        callbackURL     : configAuth.gitHub.callbackURL,
+        clientID        : authProviderSecrets.gitHub.clientId,
+        clientSecret    : authProviderSecrets.gitHub.clientSecret,
+        callbackURL     : authProviderSecrets.gitHub.callbackURL,
 				passReqToCallback: true
 
     },

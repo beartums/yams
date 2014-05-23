@@ -1,27 +1,31 @@
 <!doctype html>
-<html>
+<html lang="en" ng-app="authApp">
 
 	<head>
 		<title>yams Authentication</title>
-		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
-		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> 
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> 
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular-route.js"></script>
-		<script src ="spaAuth.js"></script>
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+		<script src ="authApp.js"></script>
+		<script src ="authController.js"></script>
 	  <style>
-			body 		{ padding-top:80px; }
+			body 		{ padding-top:48px; }
 		</style>
 	</head>
   <body>
 
-		<div class="navbar navbar-inverse navbar-fixed-top">
+		<div style="height:48px;" class="navbar navbar-inverse navbar-fixed-top">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand pull-left" href="#"><img alt="" src="../../yams48.ico" style="width: 48px; height: 48px;"> 
+				<a class="navbar-brand pull-left" href="#"><img alt="" src="assets/yams48Transp.png" style="width: 48px; height: 48px; top:-15px; position: relative"> 
 				</a>
 			</div>
 
@@ -50,6 +54,13 @@
 			<div class="jumbotron text-center">
 				<h1>yams</h1>
 				<p>it's what's for dinner</p>
+				<hr>
+				<p>Register/Login with:</p>
+
+				<a href="/auth/google" class="btn btn-danger"><span class="fa fa-google-plus"></span> Google</a>
+				<a href="/auth/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a>
+				<a href="/auth/github" class="btn btn-default"><span class="fa fa-github"></span> Github</a>
+				<hr>
 			</div>
 			
 			<div class="col-sm-6 col-sm-offset-3">

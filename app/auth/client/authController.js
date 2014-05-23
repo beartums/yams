@@ -1,2 +1,3 @@
-app.controller('authCtrl', function($scope) {
+app.controller('authController', function($scope) {
+
 });
