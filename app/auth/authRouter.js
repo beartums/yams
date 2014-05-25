@@ -22,7 +22,10 @@ var router = express.Router();
 	// LOGIN ===============================
 	// show the login form
 	console.log(__dirname);
+	// Everything from the client subdirectory is served as a static file
 	router.use('/client', express.static(__dirname + '/client'));
+	
+	// Auh intercept is intended as a popup when someone tries to access an unavailable resource
 	router.get('/logmein', function(req,res,next) {
 		res.sendfile('./app/auth/authIntercept.html');
 	});
@@ -33,15 +36,18 @@ var router = express.Router();
 	});
 
 	router.route('/login')
-		.get(function(req, res) {
+		// As a SPA, there should never be a get request for login.  Login request is routed by clietn angular app
+		//.get(function(req, res) {
 			// render the page and pass in any flash data if it exists
 			//res.render('login.ejs', { message: req.flash('loginMessage') }); 
-			res.sendfile('./app/auth/html/login.html');
-		})
-		.post(passport.authenticate('local-login', {
-				successRedirect : '/profile', // redirect to the secure profile section
-				failureRedirect : '/auth/login', // redirect back to the signup page if there is an error
-				failureFlash : true // allow flash messages
+			//res.sendfile('./app/auth/html/login.html');
+		//})
+		.post(passport.authenticate(function(req, res, next) {
+			passport.authenticate('local-login', function (err, user, info) {
+				if (err) { return res.send(err); }
+				if (!user) { return res.send(401); }
+				res.send
+			});
 		}));
 	
 	router.route('/signup')

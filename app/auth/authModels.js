@@ -15,7 +15,7 @@ var userSchema = mongoose.Schema({
         password     : String,
 				created			 : Date,
 				lastLoggedIn : Date,
-				loginCount	 : {type: Number, default: 0},
+				loginCount	 : {type: Number, 'default': 0},
     },
 
     oauthProviders        : [{ // social network authorization
@@ -26,7 +26,7 @@ var userSchema = mongoose.Schema({
         name         : String,  // Name of user in network
 				linked			 : Date,
 				lastLoggedIn : Date,
-				loginCount	 : {type: Number, default: 0},
+				loginCount	 : {type: Number, 'default': 0},
     }]
 
 });
