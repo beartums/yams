@@ -14,7 +14,8 @@
 	 * @param {function} done - callback function indicating the success/failure of this validation
 	 * @returns {function} done - callback function (err, user) error not null means failed. user not null means succeeded
 	 */
-	function validateAuth(network, req, profile, token, done) {
+
+	 function validateAuth(network, req, profile, token, done) {
 		if (!req.user) { // If the user is not already logged in...
 		// try to find the user based on their social media network id
 			User.findOne({ 'oauthProviders.id' : profile.id, 'oauthProviders.network': network }, function(err, user) {

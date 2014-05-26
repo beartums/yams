@@ -1,32 +1,34 @@
 // app/models/user.js
 // load the things we need
 var mongoose = require('mongoose');
-var bcrypt   = require('bcrypt-nodejs');
+var bcrypt = require('bcrypt-nodejs');
+var jwt = require('jwt-simple');
+var secret = "thisismytokensecret";
 
 // define the schema for our user model
 // 20140408: change model to handle multiple profiles for each social network
 var userSchema = mongoose.Schema({
 
     local            : {
-				username		 : String,
-				firstName		 : String,
-				lastName		 : String,
+		username	 : String,
+		firstName	 : String,
+		lastName	 : String,
         email        : String,
         password     : String,
-				created			 : Date,
-				lastLoggedIn : Date,
-				loginCount	 : {type: Number, 'default': 0},
+		created		 : Date,
+		lastLoggedIn : Date,
+		loginCount	 : {type: Number, 'default': 0},
     },
 
-    oauthProviders        : [{ // social network authorization
-				network			 : String, //Facebook, Google
+    oauthProviders : [{ // social network authorization
+		network		 : String, //Facebook, Google
         id           : String, // Social Network ID for this user
         token        : String, // Token supplied by the social network
         emails       : [String], // array of emails assigned to this user
         name         : String,  // Name of user in network
-				linked			 : Date,
-				lastLoggedIn : Date,
-				loginCount	 : {type: Number, 'default': 0},
+		linked		 : Date,
+		lastLoggedIn : Date,
+		loginCount	 : {type: Number, 'default': 0},
     }]
 
 });
@@ -41,6 +43,17 @@ userSchema.methods.generateHash = function(password) {
 userSchema.methods.validPassword = function(password) {
     return bcrypt.compareSync(password, this.local.password);
 };
+
+userSchema.statics.encodeToken = function(user) {
+	if (!user && this.id) user = this;
+	if (!user) return null;
+	return jwt.encode(user.id,secret);
+};
+
+userSchema.statics.decodeToken = function(token) {
+	return jwt.decode(token,secret);
+};
+
 
 // create the model for users and expose it to our app
 module.exports = mongoose.model('User', userSchema);

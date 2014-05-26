@@ -10,8 +10,8 @@
     "passport-twitter": "~1.0.2",
     "passport-google-oauth": "~0.1.5",
     "passport-github": "latest",
-	"express-jwt": "latest",
-	"jsonwebtoken": "latest",
+    "express-jwt": "latest",
+    "jsonwebtoken": "latest",
     "bcrypt-nodejs": "latest",
     "moment": "~2.6.0",
     "forever": "latest",
@@ -22,6 +22,7 @@
     "connect-flash": "~0.1.1",
     "morgan": "~1.0.0",
     "body-parser": "~1.0.2",
-    "ejs": "~1.0.0"
+    "ejs": "~1.0.0",
+    "jwt-simple": "~0.2.0"
   }
 }

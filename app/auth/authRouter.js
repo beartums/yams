@@ -14,10 +14,7 @@ var express = require('express');
 var router = express.Router();
 
 // HOME PAGE (with login links) ========
-	// required for passport
-	//router.use(express.session({ secret: 'IthinkThisjustneedstobelongenoughtobehardtofigureout' })); // session secret
-/*	router.use(passport.initialize());
-	router.use(passport.session()); // persistent login sessions*/
+
 
 	// LOGIN ===============================
 	// show the login form
@@ -46,7 +43,7 @@ var router = express.Router();
 			passport.authenticate('local-login', function (err, user, info) {
 				if (err) { return res.send(err); }
 				if (!user) { return res.send(401); }
-				res.send
+				res.send({"token":user.createToken()});
 			});
 		}));
 	
