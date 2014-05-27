@@ -4,7 +4,8 @@
  * Contains business logic for validating against oauth2 provider logins
  *
  **/
- module.exports = {
+//var module = require("module");
+module.exports = {
 	 /**
 	 * Validates authentication/authorization from social networks
 	 * @param {string} network - name of the authorizing social network (provider)
@@ -15,7 +16,7 @@
 	 * @returns {function} done - callback function (err, user) error not null means failed. user not null means succeeded
 	 */
 
-	 function validateAuth(network, req, profile, token, done) {
+	 validateAuth: function(network, req, profile, token, done) {
 		if (!req.user) { // If the user is not already logged in...
 		// try to find the user based on their social media network id
 			User.findOne({ 'oauthProviders.id' : profile.id, 'oauthProviders.network': network }, function(err, user) {
@@ -82,7 +83,7 @@
 				}
 			});
 		}	
-	}
+	},
 	/**
 	 * Searches the provider array and returns the index of the object that matches current authorizing provider or false
 	 * @param {string} id - User id
@@ -90,12 +91,12 @@
 	 * @param {object} user - currently logged in user object
 	 * @returns {number|boolean} index of matched provider, if found, otherwise false
 	 **/
-	function getProvider(id,network,user) {
+	getProvider: function(id,network,user) {
 		for (var i = 0; i < user.oauthProviders.length; i++) {
 			if (user.oauthProviders[i].id==id && user.oauthProviders[i].network==network) return i;
 		}
 		return false;
-	}
+	},
 	/**
 	 * Uses profile information from the authorizing provider to create a provider object for persisting
 	 * @param {string} network - name of the authorizing provider
@@ -103,7 +104,7 @@
 	 * @param {string} token - authenticating token provided by the provider
 	 * @returns {object} provider object ready to be persisted
 	 **/
-	 function createProviderObject(network,profile,token) {
+	 createProviderObject: function(network,profile,token) {
 		var provider = {};
 		
 		var emails = [];
@@ -131,3 +132,4 @@
 		return provider;
 	}
 }
+

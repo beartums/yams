@@ -9,20 +9,26 @@
 var path = require('path');
 var User = require('./authModels');
 var authProviderSecrets = require('./authProviderSecrets');
-var passport = require('passport');
 var express = require('express');
+var expressJwt = require('express-jwt');
+var jwt = ('jsonwebtoken');
 var router = express.Router();
+var secret = "this is my jwt secret because i'm so s3cr3tiv3";
+
+var passport = require('passport');
+router.use(passport.initialize());
+require('./authPassportConfig')(passport);
 
 // HOME PAGE (with login links) ========
 
 
 	// LOGIN ===============================
 	// show the login form
-	console.log(__dirname);
+	console.log('authrouter ' + __dirname);
 	// Everything from the client subdirectory is served as a static file
 	router.use('/client', express.static(__dirname + '/client'));
 	
-	// Auh intercept is intended as a popup when someone tries to access an unavailable resource
+	// Auth intercept is intended as a popup when someone tries to access an unavailable resource
 	router.get('/logmein', function(req,res,next) {
 		res.sendfile('./app/auth/authIntercept.html');
 	});
@@ -33,19 +39,13 @@ var router = express.Router();
 	});
 
 	router.route('/login')
-		// As a SPA, there should never be a get request for login.  Login request is routed by clietn angular app
-		//.get(function(req, res) {
-			// render the page and pass in any flash data if it exists
-			//res.render('login.ejs', { message: req.flash('loginMessage') }); 
-			//res.sendfile('./app/auth/html/login.html');
-		//})
-		.post(passport.authenticate(function(req, res, next) {
+		.post(function(req, res, next) {
 			passport.authenticate('local-login', function (err, user, info) {
 				if (err) { return res.send(err); }
 				if (!user) { return res.send(401); }
-				res.send({"token":user.createToken()});
+				res.json({"token":user.createToken()});
 			});
-		}));
+		});
 	
 	router.route('/signup')
 		.get(function(req, res) {

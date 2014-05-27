@@ -15,21 +15,18 @@ var apiRouter = require('./app/apis/apiRouter');
 var serverRouter = require('./serverRouter');	
 var configDB = require('./config/database.js');
 var morgan = require('morgan');
-var ejs = require('ejs');
 // configuration ===============================================================
 mongoose.connect(configDB.url); // connect to our database
-
 	// set up our express application
-app.set('view engine', 'ejs');
 app.use(morgan('dev')); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
-app.use(session({secret:'Ihopethisislongenoughtobereallyreallydifficulttofigureout'}));
-app.use(saveUrl()); // store to session the last url attempt before redirect to authorization
-app.use(logNextUrl()); // log to console the saved url
+//app.use(saveUrl()); // store to session the last url attempt before redirect to authorization
+//app.use(logNextUrl()); // log to console the saved url
 app.use(bodyParser()); // get information from html forms
 app.use(flash()); // use connect-flash for flash messages stored in session
-app.use(passport.initialize());
-app.use(passport.session()); // persistent login sessions
+//app.use(passport.initialize());
+//require('./app/auth/authPassportConfig')(passport);
+
 app.use('/auth',authRouter); // authorization protocol
 app.use('/api',apiRouter);
 app.use('/',serverRouter);

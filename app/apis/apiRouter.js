@@ -16,5 +16,5 @@ module.exports = router;
 //   login page.
 function isAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
-  res.redirect('/auth/logmein')
+  res.redirect('/auth/logmein');
 }

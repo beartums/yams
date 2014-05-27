@@ -2,8 +2,8 @@
 // load the things we need
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
-var jwt = require('jwt-simple');
-var secret = "thisismytokensecret";
+var jwt = require('jsonwebtoken');
+var secret = "this is my JWT secret because I'm so s3cr3tiv3";
 
 // define the schema for our user model
 // 20140408: change model to handle multiple profiles for each social network
@@ -44,10 +44,12 @@ userSchema.methods.validPassword = function(password) {
     return bcrypt.compareSync(password, this.local.password);
 };
 
-userSchema.statics.encodeToken = function(user) {
+userSchema.statics.createToken = function(user) {
 	if (!user && this.id) user = this;
 	if (!user) return null;
-	return jwt.encode(user.id,secret);
+	var profile = {"username": user.username,
+					"id": user.id};
+	return jwt.sign(profile,secret,{"expiresInMinutes":60*5});
 };
 
 userSchema.statics.decodeToken = function(token) {
