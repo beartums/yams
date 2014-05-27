@@ -44,7 +44,7 @@ userSchema.methods.validPassword = function(password) {
     return bcrypt.compareSync(password, this.local.password);
 };
 
-userSchema.statics.createToken = function(user) {
+userSchema.methods.createToken = function(user) {
 	if (!user && this.id) user = this;
 	if (!user) return null;
 	var profile = {"username": user.username,

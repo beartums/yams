@@ -34,35 +34,63 @@ require('./authPassportConfig')(passport);
 	});
 	
 	router.get('', function(req,res,next) {
-		console.log('authrouter: /');
 		res.redirect('/auth/client/');
 	});
 
 	router.route('/login')
 		.post(function(req, res, next) {
 			passport.authenticate('local-login', function (err, user, info) {
-				if (err) { return res.send(err); }
-				if (!user) { return res.send(401); }
-				res.json({"token":user.createToken()});
-			});
+				if (err) {return res.send(500, "login error: " + err);} // system error
+				if (!user) {return res.send(401,"Incorrect email address or password");} // bad password/email
+				return res.json(200,{"token":user.createToken()}); // success
+			})(req,res,next);
 		});
 	
 	router.route('/signup')
-		.get(function(req, res) {
-			// render the page and pass in any flash data if it exists
-			res.render('signup.ejs', { message: req.flash('signupMessage') });
-		})
-		.post(passport.authenticate('local-signup', {
-			successRedirect : '/profile', // redirect to the secure profile section
-			failureRedirect : '/auth/signup', // redirect back to the signup page if there is an error
-			failureFlash : true // allow flash messages
-		}));
+		.post(function(req, res, next) {
+
+	        // asynchronous
+	        // User.findOne wont fire unless data is sent back
+	        process.nextTick(function() {
+
+			// find a user whose email is the same as the forms email
+			// we are checking to see if the user trying to login already exists
+	        	console.log('email: ' + req.body.email);
+		        User.findOne({ 'local.email' :  req.body.email }, function(err, user) {
+		            // if there are any errors, return the error
+		            if (err) res.send(500,"user.findone failed: " + err.description);
+	
+		            // check to see if theres already a user with that email
+		            if 
+		            	(user) res.send(409, "Error: That email address is already taken")
+		            else 
+		            {	
+						// if there is no user with that email
+		                // create the user
+		                var newUser            = new User();
+	
+		                // set the user's local credentials
+		                newUser.local.email    = req.body.email;
+		                newUser.local.password = newUser.generateHash(req.body.password);
+		                newUser.local.username = req.body.username;
+		                newUser.firstName = req.body.firstName;
+		                newUser.lastName = req.body.lastName;
+						newUser.local.created	 = new Date();
+						newUser.local.loginCount = 1;
+						newUser.local.lastLogin = new Date();
+	
+						// save the user
+		                newUser.save(function(err) {
+		                    if (err) res.send(500,"user.save failed: " + err.description);
+		                    res.send(201,"Success: Account Created");
+		                });
+		            }
+		        });    
+	        });
+		});
 	
 	// connect local credentials to a previously authenticated login --------------------------------
 	router.route('/connect/local')
-		.get(function(req, res) {
-			res.render('connect-local.ejs', { message: req.flash('loginMessage') });
-		})
 		.post(passport.authenticate('local-signup', {
 			successRedirect : '/profile', // redirect to the secure profile section
 			failureRedirect : '/auth/connect/local', // redirect back to the signup page if there is an error

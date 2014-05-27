@@ -1,28 +1,30 @@
 <!-- signup.html -->
 <h1><span class="fa fa-sign-in"></span> Signup</h1>
-<form action="/auth/signup" method="post">
+<!-- show any messages that come back with authentication -->
+	<div class="alert" ng-class="{'alert-success':signupSucceeded,'alert-danger':!signupSucceeded}" ng-hide="!message">{{message}}</div>
+<form>
 	<div class="form-group">
 		<label>Username</label>
-		<input type="text" class="form-control" name="username">
+		<input type="text" class="form-control" name="username" ng-model="username">
 	</div>
 	<div class="form-group">
 		<label>Email</label>
-		<input type="text" class="form-control" name="email">
+		<input type="text" class="form-control" name="email" ng-model="email">
 	</div>
 	<div class="form-group">
 		<label>Password</label>
-		<input type="password" class="form-control" name="password">
+		<input type="password" class="form-control" name="password" ng-model="password">
 	</div>
 	<div class="form-group">
 		<label>First Name</label>
-		<input type="password" class="form-control" name="firstName">
+		<input type="password" class="form-control" name="firstName" ng-model="firstName">
 	</div>
 	<div class="form-group">
 		<label>Last Name</label>
-		<input type="password" class="form-control" name="lastName">
+		<input type="password" class="form-control" name="lastName" ng-model="lastName">
 	</div>
 
-	<button type="submit" class="btn btn-warning btn-lg">Signup</button>
+	<button class="btn btn-warning btn-lg" ng-click="signup()">Signup</button>
 </form>
 
 <p>Already have an account? <a href="#login">Login</a></p>

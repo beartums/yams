@@ -8,8 +8,8 @@ var moment 	 = require('moment');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var passport = require('passport');
-require('./app/auth/authPassportConfig')(passport); // pass passport for configuration
+//var passport = require('passport');
+//require('./app/auth/authPassportConfig')(passport); // pass passport for configuration
 var authRouter = require('./app/auth/authRouter');
 var apiRouter = require('./app/apis/apiRouter');
 var serverRouter = require('./serverRouter');	
